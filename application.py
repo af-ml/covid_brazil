@@ -5,11 +5,19 @@ import dash_html_components as html
 import dash_core_components as dcc
 import plotly.graph_objs as go
 import requests
+import time
 
 
 development = go.Figure(data=[go.Scatter(x=[1, 2, 3, 4], y=[0, 1, 20, 200])])
 
-r = requests.get('https://thevirustracker.com/free-api?countryTotal=BR').json()
+for i in range(5):
+    try:
+        r = requests.get('https://thevirustracker.com/free-api?countryTotal=BR').json()
+    except:
+
+
+        print("request failed")
+        time.sleep(5)
 country_data = r.get('countrydata',[])
 country_data = country_data[0]
 del country_data['info']
@@ -27,9 +35,9 @@ news_feed = '\n\n'.join(md)
 external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
 external_stylesheets = ["assets/dark.css"]
 
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+application = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-app.layout = html.Div(
+application.layout = html.Div(
     [
         html.Div(
             className="app-header",
@@ -49,5 +57,5 @@ app.layout = html.Div(
 )
 
 if __name__ == "__main__":
-
-    app.run_server(host='0.0.0.0',debug=True)
+    application.debug=True
+    application.run_server()
