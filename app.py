@@ -9,7 +9,6 @@ import requests
 
 development = go.Figure(data=[go.Scatter(x=[1, 2, 3, 4], y=[0, 1, 20, 200])])
 
-
 r = requests.get('https://thevirustracker.com/free-api?countryTotal=BR').json()
 country_data = r.get('countrydata',[])
 country_data = country_data[0]
@@ -19,6 +18,7 @@ country_news = r.get('countrynewsitems',[])[0]
 country_news = pd.DataFrame(country_news).transpose()
 
 news_feed = []
+md = []
 for title,link in country_news[['title','url']].values:
     md.append("[{}]({})".format(title,link))
 news_feed = '\n\n'.join(md)
