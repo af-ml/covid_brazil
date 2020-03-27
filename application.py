@@ -6,9 +6,12 @@ import dash_core_components as dcc
 import plotly.graph_objs as go
 import requests
 import time
+import csv
 
-
-development = go.Figure(data=[go.Scatter(x=[1, 2, 3, 4], y=[0, 1, 20, 200])])
+data = pd.read_csv('Historic Data_17_03_20.csv', delimiter=";",encoding='latin-1')
+data_brazil = data.loc[(data['countrycode']=="BR")]
+data_brazil['date'] = pd.to_datetime(data_brazil['date'])
+development = go.Figure(data=[go.Scatter(x=data_brazil["date"], y=data_brazil["totalcases"])])
 
 def fetch_data():
     r = requests.get("https://thevirustracker.com/free-api?countryTotal=BR", headers={"User-Agent": "XY"})
