@@ -10,6 +10,9 @@ import csv
 
 data = pd.read_csv('Historic Data_17_03_20.csv', delimiter=";",encoding='latin-1')
 data_brazil = data.loc[(data['countrycode']=="BR")]
+
+data_brazil = data_brazil[data_brazil["totalcases"]>0.]
+
 data_brazil['date'] = pd.to_datetime(data_brazil['date'])
 development = go.Figure(data=[go.Scatter(x=data_brazil["date"], y=data_brazil["totalcases"])])
 
